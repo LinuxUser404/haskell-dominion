@@ -1,2 +1,1 @@
-sudo: required
 ghc: 7.8
