@@ -1,1 +1,1 @@
-script: cabal install 
+ghc: 7.8
