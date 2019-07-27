@@ -11,9 +11,7 @@ import DominionTypes
 import DominionCards
 
 type PlayStrategy = (DominionTypes.State -> DominionTypes.Play)
---type MovedAction = (DominionTypes.Notification -> Maybe DominionTypes.Play)
 
--- TODO: State monad?
 data DominionPlayer = DominionPlayer {
 --	respondToNotification :: Response,
   playStrategy :: PlayStrategy
@@ -23,19 +21,16 @@ playerResponse :: DominionPlayer -> DominionTypes.Notification -> Maybe String
 playerResponse player (MoveNotification  _    ) = Nothing
 playerResponse player (StateNotification state) = Just $ show $ (playStrategy player) state
 
-
 -- actual players
 dumbPlayer = DominionPlayer doNothing
 okayPlayer_v1 = DominionPlayer bigMoney  -- plays bigMoney
 -- randy -- plays random startegy
 
-
-
-
 doNothing :: PlayStrategy
 doNothing state
   | hand state == [] = Play Clean []
   | otherwise        = Play Clean ((head (hand state)):[])
+
 
 -- strategy that relies only on Treasure and Victory cards.
 bigMoney :: PlayStrategy
@@ -62,10 +57,10 @@ bigMoney state
   | otherwise = doNothing state
 
 deckTreasureValue :: DominionTypes.Deck -> Int
-deckTreasureValue deck = sum $ map treasureValue deck
+deckTreasureValue = sum . map treasureValue
 
 getDeckTreasures :: DominionTypes.Deck -> DominionTypes.Deck
-getDeckTreasures deck = filter (\card -> (treasureValue card) > 0) deck
+getDeckTreasures = filter (\card -> (treasureValue card) > 0)
 
 getFullPlayerDeck :: DominionTypes.State -> DominionTypes.Deck
 getFullPlayerDeck state = (deck state) ++ (hand state) ++ (plays state) ++ (discards state)

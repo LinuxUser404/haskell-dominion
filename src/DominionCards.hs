@@ -4,13 +4,11 @@ Language: Haskell
 Program: Dominion Client
 -}
 
-
-
 module DominionCards (Card(..), readCard, treasureValue, victoryValue, cardCost) where
 
-data Card =
+data Card
   -- protocol v1
-  Copper | Silver | Gold
+  = Copper | Silver | Gold
   | Estate | Duchy | Province | Curse
   | Mine
   -- protocol v2
@@ -18,7 +16,7 @@ data Card =
   -- protocol v3
   | Moat | Militia
   -- extra
-  | Chapel | Chancellor | Feast | Bureaucrat| Moneylender | Thief |Council | Festival |Laboratory | Adventurer
+  | Chapel | Chancellor | Feast | Bureaucrat| Moneylender | Thief |Council | Festival | Laboratory | Adventurer
   | UnknownCard
   deriving Eq
 
@@ -93,52 +91,49 @@ readCard "Adventurer"  = Adventurer
 readCard _ = UnknownCard
 
 treasureValue :: Card -> Int
-treasureValue card
-  | card == Copper   = 1
-  | card == Silver   = 2
-  | card == Gold     = 3
-  | otherwise        = 0
+treasureValue Copper   = 1
+treasureValue Silver   = 2
+treasureValue Gold     = 3
+treasureValue _        = 0
 
 victoryValue :: Card -> Int
-victoryValue card
-  | card == Curse    = -1
-  | card == Estate   =  1
-  | card == Duchy    =  3
-  | card == Province =  6
-  | otherwise        =  0
+victoryValue Curse    = -1
+victoryValue Estate   =  1
+victoryValue Duchy    =  3
+victoryValue Province =  6
+victoryValue _        =  0
 
 cardCost :: Card -> Int
-cardCost card
-  -- Treasure cards
-  | card == Copper    = 0
-  | card == Silver    = 3
-  | card == Gold      = 6
-  -- Victory cards
-  | card == Curse     = 0
-  | card == Estate    = 2
-  | card == Duchy     = 5
-  | card == Province  = 8
-  -- Action cards
-  -- protocol v1
-  | card == Mine        = 5 -- Trash a Treasure card from your hand. Gain a Trasure card costing up to 3 more; put it in into your hand
-  -- protocol v2
-  | card == Cellar     = 2 -- +1A, "Discards any number of cards. +1 Card per card discarded"
-  | card == Village    = 3 -- +1 Card, +2 Actions
-  | card == Woodcutter = 3 -- +1 Buy, +2 Coins
-  | card == Workshop   = 3 -- Gain a card costing up to 4
-  | card == Remodel    = 4 -- gain a card consting up to 2 more than the trashed card
-  | card == Smithy     = 4 -- +3 Cards,
-  | card == Market     = 5 -- +1 Card, +1 Action, +1 Buy, +1 Coin
-  -- extra
-  | card == Chapel      = 2
-  | card == Bureaucrat  = 2
-  | card == Feast       = 2
-  | card == Moneylender = 2
-  | card == Chancellor  = 2
-  | card == Thief       = 4
-  | card == Militia     = 4  -- +2 Coin "Each other player discards down to 3 cards in his hand"
-  | card == Council     = 5
-  | card == Festival    = 5
-  | card == Laboratory  = 5
-  | card == Adventurer  = 5
-  | otherwise           = 0
+-- Treasure cards
+cardCost Copper    = 0
+cardCost Silver    = 3
+cardCost Gold      = 6
+-- Victory cards
+cardCost Curse     = 0
+cardCost Estate    = 2
+cardCost Duchy     = 5
+cardCost Province  = 8
+-- Action cards
+-- protocol v1
+cardCost Mine        = 5 -- Trash a Treasure card from your hand. Gain a Trasure card costing up to 3 more; put it in into your hand
+-- protocol v2
+cardCost Cellar     = 2 -- +1A, "Discards any number of cards. +1 Card per card discarded"
+cardCost Village    = 3 -- +1 Card, +2 Actions
+cardCost Woodcutter = 3 -- +1 Buy, +2 Coins
+cardCost Workshop   = 3 -- Gain a card with cost up to 4
+cardCost Remodel    = 4 -- Gain a card with cost up to 2 more than the trashed card
+cardCost Smithy     = 4 -- +3 Cards,
+cardCost Market     = 5 -- +1 Card, +1 Action, +1 Buy, +1 Coin
+-- extra
+cardCost Chapel      = 2
+cardCost Bureaucrat  = 2
+cardCost Feast       = 2
+cardCost Moneylender = 2
+cardCost Chancellor  = 2
+cardCost Thief       = 4
+cardCost Militia     = 4  -- +2 Coin "Each other player discards down to 3 cards in his hand"
+cardCost Council     = 5
+cardCost Festival    = 5
+cardCost Laboratory  = 5
+cardCost Adventurer  = 5
+cardCost _           = 0
