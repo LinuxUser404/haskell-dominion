@@ -8,16 +8,19 @@ module DominionCards (Card(..), readCard, treasureValue, victoryValue, cardCost)
 
 data Card
   -- protocol v1
+  -- base cards
   = Copper | Silver | Gold
-  | Estate | Duchy | Province | Curse
+  | Estate | Duchy | Province
+  | Curse
+  -- kingdom cards
   | Mine
   -- protocol v2
   | Cellar | Village | Woodcutter | Workshop | Remodel | Smithy | Market
   -- protocol v3
   | Moat | Militia
   -- extra
-  | Chapel | Chancellor | Feast | Bureaucrat| Moneylender | Thief |Council | Festival | Laboratory | Adventurer
-  | UnknownCard
+  | Chapel | Chancellor | Feast | Bureaucrat| Moneylender | Thief | Council | Festival | Laboratory | Adventurer
+  | UnknownCard -- compatibility card
   deriving Eq
 
 instance Show Card where
