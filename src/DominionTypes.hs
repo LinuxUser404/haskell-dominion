@@ -40,17 +40,17 @@ data State = State {
 } deriving Eq
 
 instance Show State where
-  show myState = "(" ++ (intercalate " " ["move",
-    "((" ++ (intercalate " " ("players"  :          (players  myState)   )) ++ ")",
-    "(" ++ (intercalate " " ("supply"   :(map show (supply   myState) ) )) ++ ")",
-    "(" ++ (intercalate " " ("trash"    :(map show (trash    myState) ) )) ++ ")",
-    "(" ++ (intercalate " " ("actions"  :[    show (actions  myState) ] )) ++ ")",
-    "(" ++ (intercalate " " ("buys"     :[    show (buys     myState) ] )) ++ ")",
-    "(" ++ (intercalate " " ("coins"    :[    show (coins    myState) ] )) ++ ")",
-    "(" ++ (intercalate " " ("deck"     :(map show (deck     myState) ) )) ++ ")",
-    "(" ++ (intercalate " " ("hand"     :(map show (hand     myState) ) )) ++ ")",
-    "(" ++ (intercalate " " ("plays"    :(map show (plays    myState) ) )) ++ ")",
-    "(" ++ (intercalate " " ("discards" :(map show (discards myState) ) )) ++ ")"]) ++ "))"
+  show myState = "(" ++ unwords ["move",
+    "((" ++ unwords ("players"  :          players  myState  ) ++ ")",
+    "("  ++ unwords ("supply"   :map show (supply   myState) ) ++ ")",
+    "("  ++ unwords ("trash"    :map show (trash    myState) ) ++ ")",
+    "("  ++ unwords ("actions"  :[   show (actions  myState)]) ++ ")",
+    "("  ++ unwords ("buys"     :[   show (buys     myState)]) ++ ")",
+    "("  ++ unwords ("coins"    :[   show (coins    myState)]) ++ ")",
+    "("  ++ unwords ("deck"     :map show (deck     myState) ) ++ ")",
+    "("  ++ unwords ("hand"     :map show (hand     myState) ) ++ ")",
+    "("  ++ unwords ("plays"    :map show (plays    myState) ) ++ ")",
+    "("  ++ unwords ("discards" :map show (discards myState) ) ++ ")"] ++ "))"
 
 
 data Move = Move {
@@ -64,7 +64,7 @@ data Play = Play {
 }
 
 instance Show Play where
-  show myPlay = "(" ++ (intercalate " " ((show (playType myPlay)):(map show (cards myPlay) ) )) ++ ")"
+  show myPlay = "(" ++ unwords (show (playType myPlay) : map show (cards myPlay)) ++ ")"
 
 data PlayType = ActMine
   | ActCellar | ActMarket | ActRemodel | ActSmithy | ActVillage| ActWoodcutter | ActWorkshop

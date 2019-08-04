@@ -20,14 +20,10 @@ main = do
   hPutStrLn (getInput player) "5"
   hFlush (getInput player)
   answer <- hGetContents (getOutput player)
-  putStr $ answer
+  putStr answer
 
 getInput :: (Maybe Handle, Maybe Handle, Maybe Handle, ProcessHandle) -> Handle
-getInput (h, _, _, _) = case h of
-  Nothing -> stdin
-  Just x -> x
+getInput (h, _, _, _) = fromMaybe stdin h
 
 getOutput :: (Maybe Handle, Maybe Handle, Maybe Handle, ProcessHandle) -> Handle
-getOutput (_, h, _, _) = case h of
-	Nothing -> stdout
-  Just x -> x
+getOutput (_, h, _, _) = fromMaybe stdout h

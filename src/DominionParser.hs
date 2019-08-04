@@ -18,9 +18,8 @@ myWords = do
 
 
 parseNotification :: GenParser Char st DominionTypes.Notification
-parseNotification = spaces >> (
-  (parseState >>= (\state -> return $ StateNotification state)) <|>
-  (parseMove  >>= (\move  -> return $ MoveNotification  move )) )
+parseNotification = spaces >>
+  ((StateNotification <$> parseState) <|> (MoveNotification <$> parseMove))
 
 
 parseState :: GenParser Char st DominionTypes.State
