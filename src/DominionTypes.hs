@@ -4,10 +4,9 @@ Language: Haskell
 Program: Dominion
 -}
 
-module DominionTypes (Notification(..), State(..), Deck(..), Name,
-  Move(..), Play(..), PlayType(..), readPlay) where
+module DominionTypes (Notification(..), State(..), Deck, Name,
+  Move(..), Attack(..), Defend(..), Play(..), PlayType(..), readPlay) where
 
-import Data.List
 import DominionCards (Card(..), readCard)
 
 type Name = String
@@ -88,6 +87,7 @@ readPlay ("act":"workshop"  :strs) = Play ActWorkshop   (map readCard strs)
 -- protocol v3
 readPlay ("act":"militia":strs) = Play ActMilitia (map readCard strs)
 readPlay ("act":"moat"   :strs) = Play ActMoat    (map readCard strs)
+readPlay _ = error "Unsupported play"
 
 
 instance Show PlayType where

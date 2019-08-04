@@ -3,20 +3,22 @@ Author: Nick(Mykola) Pershyn
 Language: Haskell
 Program: Dominion Client
 -}
+module Main where
 
 import System.IO
 import Text.ParserCombinators.Parsec
-import Data.List
 import Data.Foldable (forM_)
 
 --import DominionNotifications -- for testing
 import DominionTypes (Notification)
-import DominionPlayers (dumbPlayer, okayPlayer_v1, playerResponse)
+import DominionPlayers (okayPlayer_v1, playerResponse, DominionPlayer(..))
 
 import DominionParser (parseNotification)
 
+main :: IO ()
 main = notificationHandler
 
+myPlayer :: DominionPlayer
 myPlayer = DominionPlayers.okayPlayer_v1
 
 notificationHandler :: IO ()

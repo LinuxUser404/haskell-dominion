@@ -24,86 +24,86 @@ parseNotification = spaces >>
 
 parseState :: GenParser Char st DominionTypes.State
 parseState = do
-  char '(';
+  _ <- char '(';
   spaces;
-  string "move"
+  _ <- string "move"
   spaces
-  char '('
+  _ <- char '('
   spaces
-  players  <- parsePlayers
+  players'  <- parsePlayers
   spaces
-  supply   <- parseDeck   "supply"
+  supply'   <- parseDeck   "supply"
   spaces
-  trash    <- parseDeck   "trash"
+  trash'    <- parseDeck   "trash"
   spaces
-  actions  <- parsePoints "actions"
+  actions'  <- parsePoints "actions"
   spaces
-  buys     <- parsePoints "buys"
+  buys'     <- parsePoints "buys"
   spaces
-  coins    <- parsePoints "coins"
+  coins'    <- parsePoints "coins"
   spaces
-  deck     <- parseDeck   "deck"
+  deck'     <- parseDeck   "deck"
   spaces
-  hand     <- parseDeck   "hand"
+  hand'     <- parseDeck   "hand"
   spaces
-  plays    <- parseDeck   "plays"
+  plays'    <- parseDeck   "plays"
   spaces
-  discards <- parseDeck   "discards"
+  discards' <- parseDeck   "discards"
   spaces
-  char ')'
+  _ <- char ')'
   spaces;
-  char ')';
-  return $ DominionTypes.State players supply trash actions buys coins deck hand plays discards
+  _ <- char ')';
+  return $ DominionTypes.State players' supply' trash' actions' buys' coins' deck' hand' plays' discards'
 
 
 parseDeck :: String -> GenParser Char st Deck
 parseDeck deckName = do
-  char '('
+  _ <- char '('
   spaces
-  string deckName
+  _ <- string deckName
   temp <- myWords
   spaces
-  char ')'
+  _ <- char ')'
   return $ map readCard temp
 
 parsePoints :: String -> GenParser Char st Int
 parsePoints pointsName = do
-  char '('
+  _ <- char '('
   spaces
-  string pointsName
+  _ <- string pointsName
   spaces
   temp <- many (noneOf "( )\n")
   spaces
-  char ')'
+  _ <- char ')'
   return $ read temp
 
 
 parsePlayers :: GenParser Char st [Name]
 parsePlayers = do
-  char '('
+  _ <- char '('
   spaces
-  string "players"
+  _ <- string "players"
   temp <- myWords
-  char ')'
+  _ <- char ')'
   return temp
 
 
 parseMove :: GenParser Char st DominionTypes.Move
 parseMove = do
-  char '('
+  _ <- char '('
   spaces
-  string "moved"
+  _ <- string "moved"
   spaces
-  name <- many (noneOf "( )\n")
+  name' <- many (noneOf "( )\n")
   spaces
-  play <- parsePlay
+  play' <- parsePlay
   spaces
-  char ')'
-  return $ DominionTypes.Move name play
+  _ <- char ')'
+  return $ DominionTypes.Move name' play'
 
 parsePlay :: GenParser Char st DominionTypes.Play
 parsePlay = do
-  char '('
+  _ <- char '('
   temp <- myWords
-  char ')'
+  _ <- char ')'
   return $ readPlay temp

@@ -18,11 +18,14 @@ newtype DominionPlayer = DominionPlayer {
 }
 
 playerResponse :: DominionPlayer -> DominionTypes.Notification -> Maybe String
-playerResponse player (MoveNotification  _    ) = Nothing
+playerResponse _      (MoveNotification  _    ) = Nothing
 playerResponse player (StateNotification state) = Just . show $ playStrategy player state
+playerResponse _       _                        = Nothing
 
 -- actual players
+dumbPlayer :: DominionPlayer
 dumbPlayer = DominionPlayer doNothing
+okayPlayer_v1 :: DominionPlayer
 okayPlayer_v1 = DominionPlayer bigMoney  -- plays bigMoney
 -- randy -- plays random startegy
 
@@ -66,7 +69,7 @@ getFullPlayerDeck :: DominionTypes.State -> DominionTypes.Deck
 getFullPlayerDeck state = concatMap ($ state) [deck, hand, plays, discards]
 
 numberOfCardsInDeck :: Deck -> Card -> Int
-numberOfCardsInDeck deck card = length (filter (==card) deck)
+numberOfCardsInDeck deck' card = length (filter (==card) deck')
 
 canBuyCard :: Card -> State -> Bool
 canBuyCard card state = (numberOfCardsInDeck (supply state) card > 0) && (coins state >= cardCost card) && (buys state > 0)
